@@ -40,9 +40,7 @@ node default {
   # This is where you can declare classes for all nodes.
   # Example:
   #   class { 'my_class': }
-}
 
-node "agent2.localdomain" {
   include git
   include pythonvenv
   include ssh
@@ -50,7 +48,7 @@ node "agent2.localdomain" {
   #include nginx
   
   user::create {'jenkins':
-    password   => 'jenkins',
+    password   => '$1$963viJj/$VUiSdG/Sjsj4bsQD1uXTX0',
     sshkeytype => 'ssh-rsa',
     sshkey     => 'AAAAB3NzaC1yc2EAAAABIwAAAQEA09Erk4PaCNG7DUmJvvkjn9TojRJ/00nixSy4WEw0E1x2kx2KERvj9EPVuWg0vXmEhgCKqp2ikV6N9tJmfaKDUqfO7iO/QyoOMInB4l4t9CL+Ji2nDKLeoUWveX6EV+YF/f6nPKtPYErzP+JpQngoYURaabrLs5VZqWN1NvbhlGrfExtF+aXGpM4RPmaRD8IEKYbiWFb9uap3WrQXDJksYYcNRgluiuSgwFBNmzdyfunItRI4BI4PaNlHUXtUF8eLcMopxZaNb/1rUMjGPYFXV2D9153q4V/qKpXRL9zPMAeFe8I0DN3e3BJM5Mo255HlwztBT4sbZk5afRsNYtWELw=='
   }
@@ -60,7 +58,7 @@ node "agent2.localdomain" {
     owner   => jenkins,
     group   => root,
     mode    => 775,
-    require => User['jenkins']
+    require => User['jenkins'],
   }
 
   #clone git code into the server

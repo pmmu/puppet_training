@@ -17,19 +17,34 @@ define user::create($password, $sshkeytype, $sshkey) {
   }
 
   file {"/home/$title":
-    ensure  => directory,
-    owner   => $title,
-    group   => 'root',
-    mode    => 775,
-    require => User[$title],
+    ensure   => directory,
+    owner    => $title,
+    group    => 'root',
+    mode     => 775,
+    require  => User[$title],
   }
 
   file {"/home/$title/.ssh":
     ensure  => directory,
     owner   => $title,
     group   => $title,
-    mode    => 0770,
+    mode    => 700,
     require => File["/home/$title"],
+  }
+
+  file {"/home/$title/.ssh/authorized_keys":
+    ensure  => present,
+    owner   => $title,
+    group   => $title,
+    mode    => 600,
+    require => File["/home/$title/.ssh",
+  }
+
+  exec {"clean /home/$title permissions":
+    command => "chmod go-wrx /home/$title",
+    cwd     => "/home/$title",
+    require => File["/home/$title"],
+    require => User[$title],
   }
 
   if ($sshkey != ''){
