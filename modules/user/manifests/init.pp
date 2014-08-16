@@ -37,14 +37,13 @@ define user::create($password, $sshkeytype, $sshkey) {
     owner   => $title,
     group   => $title,
     mode    => 600,
-    require => File["/home/$title/.ssh",
+    require => File["/home/$title/.ssh"],
   }
 
   exec {"clean /home/$title permissions":
-    command => "chmod go-wrx /home/$title",
+    command => "/bin/chmod go-wrx /home/$title",
     cwd     => "/home/$title",
     require => File["/home/$title"],
-    require => User[$title],
   }
 
   if ($sshkey != ''){

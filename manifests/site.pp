@@ -41,12 +41,13 @@ node default {
   # Example:
   #   class { 'my_class': }
 
+  include setup
   include git
   include pythonvenv
   include ssh
   include user
   #include nginx
-  
+
   user::create {'jenkins':
     password   => '$1$963viJj/$VUiSdG/Sjsj4bsQD1uXTX0',
     sshkeytype => 'ssh-rsa',
@@ -71,6 +72,7 @@ node default {
   #set up folder as a virtual environment
   pythonvenv::environment {'ve':
     path => '/usr/local/app',
+    user => 'jenkins',
   }
 
   #setup a config file for the django website in nginx confs
